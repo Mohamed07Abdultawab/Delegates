@@ -93,6 +93,7 @@ namespace Delegates
 
 #region Video2 -> inline method
 
+/*
 namespace InlineMethods
 {
     delegate int del (int a, int b);
@@ -128,6 +129,71 @@ namespace InlineMethods
     }
 }
 
+*/
+
+#endregion
+
+
+#region Video3 -> Delegate Chains 
+
+namespace DelegateChains
+{
+    delegate void del(string input);
+    delegate string strDel(string input);
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //when return type is void, all methods will be invoked
+            del del1 = (input) => Console.WriteLine("Method1: " + input);
+            del1 += (input) => Console.WriteLine("Method2: " + input);
+            del1 += (input) => Console.WriteLine("Method3: " + input);
+
+            del1.Invoke("Mohamed");
+
+
+            //when return type is not void, only the last method's return value will be returned
+            strDel stringDel1 = (input) =>"Method11: " + input;
+            stringDel1 += (input) => "Method22: " + input;
+            stringDel1 += (input) => "Method33: " + input;
+            //return only method33's return value
+            Console.WriteLine(stringDel1.Invoke("Ali"));
+
+        }
+
+        //use lambda expressions instead of these methods
+        //static void Method1(string input)
+        //{
+        //    Console.WriteLine("Method1: " + input);
+        //}
+
+        //static void Method2(string input)
+        //{
+        //    Console.WriteLine("Method2: " + input);
+        //}
+
+        //static void Method3(string input)
+        //{
+        //    Console.WriteLine("Method3: " + input);
+        //}
+        //static string Method11(string input)
+        //{
+        //    return ("Method1: " + input);
+        //}
+
+        //static string Method22(string input)
+        //{
+        //    return ("Method2: " + input);
+        //}
+
+        //static string Method33(string input)
+        //{
+        //    return ("Method3: " + input);
+        //}
+
+
+    }
+}
 
 
 #endregion
