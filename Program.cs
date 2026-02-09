@@ -1,4 +1,7 @@
-﻿namespace Delegates
+﻿
+#region Video1
+/*
+namespace Delegates
 {
     delegate string del(string name);//hiring 
     delegate string del2(string name, string accent);
@@ -82,3 +85,49 @@
         }
     }
 }
+*/
+#endregion
+
+
+
+
+#region Video2 -> inline method
+
+namespace InlineMethods
+{
+    delegate int del (int a, int b);
+    delegate string SayHiDel(string n);
+    delegate void PrintValueDel();//can take parameters or not but no return type
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            del del1 = delegate (int a, int b) { return a + b; };//anonymous method
+            int result1 = del1.Invoke(10, 20);
+            Console.WriteLine(result1);
+
+            del del2 = (a, b) => a + b;//lambda expression
+            int result2 = del2.Invoke(10, 20);
+            Console.WriteLine(result2);
+
+            SayHiDel sayHiDel = delegate (string name) { return "Hi " + name; };
+            string result3 = sayHiDel.Invoke("John");
+            Console.WriteLine(result3);
+
+            SayHiDel sayHiDel2 = (name) => "Hi " + name;
+            string result4 = sayHiDel2.Invoke("John");
+            Console.WriteLine(result4);
+
+            //no parameters and no return type
+            PrintValueDel printValueDel = delegate () { Console.WriteLine("Hello World"); };
+            printValueDel.Invoke();
+
+            PrintValueDel printValueDel2 = () => Console.WriteLine(33);
+            printValueDel2.Invoke();
+        }
+    }
+}
+
+
+
+#endregion
