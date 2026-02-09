@@ -135,7 +135,7 @@ namespace InlineMethods
 
 
 #region Video3 -> Delegate Chains 
-
+/*
 namespace DelegateChains
 {
     delegate void del(string input);
@@ -194,6 +194,34 @@ namespace DelegateChains
 
     }
 }
+
+*/
+#endregion
+
+
+
+#region Video3 -> Generic Delegates
+
+//instead use datata types in delegates, we can use generic delegates to make them more flexible and reusable
+namespace GenericDelegates
+{
+    //delegate int del1(int a, int b);
+    //delegate string del2(string a, string b);
+
+    delegate T del<T>(T a, T b);//generic delegate
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            del<int> del1 = (a, b) => a + b;
+            Console.WriteLine(del1.Invoke(3, 2));
+
+            del<string> del2 = (a, b) => a + b;
+            Console.WriteLine(del2.Invoke("Hello ", "World"));
+        }
+    }
+}
+
 
 
 #endregion
