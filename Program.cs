@@ -230,6 +230,7 @@ namespace GenericDelegates
 
 
 #region Video4 -> Func - Action - Predicate Delegates
+/*
 
 using System;
 
@@ -273,6 +274,71 @@ namespace FuncActionPredicate
 
             Predicate<string> IsLongerThan5 = (s) => s.Length > 5;
             Console.WriteLine(IsLongerThan5.Invoke("Hello World"));
+        }
+    }
+}
+
+*/
+#endregion
+
+
+
+#region Video5 -> Events & Observer Pattern
+
+namespace EventsandObserverPattern
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            YouTubeChannel channel = new YouTubeChannel();
+
+            Subscriber subscriber1 = new Subscriber();
+            Subscriber subscriber2 = new Subscriber();
+            Subscriber subscriber3 = new Subscriber();
+
+            subscriber1.Subscribe(channel);
+            subscriber2.Subscribe(channel);
+            subscriber3.Subscribe(channel);
+
+            channel.UploadVideo("Video 1");
+            channel.UploadVideo("Video 2");
+            channel.UploadVideo("Video 3");
+
+            //channel.videoUpload("video x");
+            //we can't invoke the event from outside the class, only the class that defines the event can invoke it
+            //can use += or -= to subscribe or unsubscribe to the event, but can't use = to assign a new method to the event because it will remove all the existing subscribers
+
+            channel.videoUpload += (title) => Console.WriteLine("Another subscriber watch: " + title);
+            channel.UploadVideo("Video 4");
+
+
+        }
+    }
+
+    public delegate void VideoUpload(string title);
+    public class YouTubeChannel
+    {
+        //event is a special type of delegate that can only be invoked from within the class that defines it
+        //and can only be subscribed to or unsubscribed from using the += and -= operators
+        public event VideoUpload videoUpload;
+        public void UploadVideo(string videoTitle)
+        {
+            Console.WriteLine($"New video uploaded: {videoTitle}");
+            videoUpload?.Invoke(videoTitle);
+        }
+    }
+
+    public class Subscriber
+    {
+        public void Subscribe(YouTubeChannel channel)
+        {
+            channel.videoUpload += WatchTheVideo;
+        }
+
+        public void WatchTheVideo(string videoTitle)//handler
+        {
+            Console.WriteLine($"User watch: {videoTitle}");
         }
     }
 }
