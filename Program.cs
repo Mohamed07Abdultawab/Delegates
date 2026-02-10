@@ -201,6 +201,7 @@ namespace DelegateChains
 
 
 #region Video3 -> Generic Delegates
+/*
 
 //instead use datata types in delegates, we can use generic delegates to make them more flexible and reusable
 namespace GenericDelegates
@@ -221,7 +222,59 @@ namespace GenericDelegates
         }
     }
 }
+*/
 
 
+#endregion
+
+
+
+#region Video4 -> Func - Action - Predicate Delegates
+
+using System;
+
+namespace FuncActionPredicate
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Func is a delegate that can take number of parameters and last parameters is return a value
+            Console.WriteLine("===Test Func===");
+            Func<int,int,int> add = (a, b) => a + b;//Func<parameter types, return type>
+            Console.WriteLine(add.Invoke(3, 2));
+
+            Func<int,int,int,int,int,int> add2 = (a, b, c, d, e) => a + b + c + d + e;
+            Console.WriteLine(add2.Invoke(1, 2, 3, 4, 5));
+
+            Func<int, int, string> print = (a,b) => (a + " " + b);
+            Console.WriteLine(print.Invoke(10, 20));
+
+
+
+
+
+            //Action is a delegate that can take number of parameters but no return type'
+            Console.WriteLine("\n===Test Action===");
+            // Func can have void return type but we need to return nothing so use action
+            Action<string> printMessage = (m) => Console.WriteLine(m);
+            printMessage.Invoke("Hello World");
+
+            Action<int, int> printSum = (a, b) => Console.WriteLine(a + b);
+            printSum.Invoke(10, 20);
+
+
+
+
+            //Predicate is a delegate that can take one parameter and return a boolean value
+            Console.WriteLine("\n===Test Predicate===");
+            Predicate<int> IsEven = (a) => a % 2 == 0;
+            Console.WriteLine(IsEven.Invoke(10));
+
+            Predicate<string> IsLongerThan5 = (s) => s.Length > 5;
+            Console.WriteLine(IsLongerThan5.Invoke("Hello World"));
+        }
+    }
+}
 
 #endregion
