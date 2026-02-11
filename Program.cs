@@ -347,7 +347,7 @@ namespace EventsandObserverPattern
 
 
 #region Video6 -> EventHandler - EventArgs
-
+/*
 namespace EventHandlerEventArgs
 {
     internal class Program
@@ -408,6 +408,102 @@ namespace EventHandlerEventArgs
     }
 
 }
+*/
+
+#endregion
+
+
+
+
+#region Video7 -> Covariance & Contravariance
+
+using System.Threading.Channels;
+
+namespace CovarianceContravariance
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Apple apple01 = new Apple();
+            Orange orange01 = new Orange();
+
+            //Covariance: we can assign a derived class object to a base class reference
+            Fruit fruit01 = new Apple();
+            Fruit fruit02 = new Orange();
+
+            CreateFruitDelegate fruitDelegate = apple01.CreateApple;
+            fruitDelegate += orange01.CreateOrange;
+            fruitDelegate.Invoke();
+
+            Console.WriteLine("\n====================\n");
+
+            //part2
+            //Contravariance: we can assign a base class reference to a derived class reference
+            //Apple apple02 = new Fruit();//error because we can't assign a base class reference to a derived class reference
+
+
+            AppleJuiceFactory appleJuiceFactory = new AppleJuiceFactory();
+            FruitJuiceFactory fruitJuiceFactory = new FruitJuiceFactory();
+
+
+            CreateAppleJuiceDelegate appleJuiceDelegate = appleJuiceFactory.CreateAppleJuice;//Normal
+            appleJuiceDelegate += fruitJuiceFactory.CreateFruitJuice;//Contravariance allows us to assign a method that takes a base class parameter to a delegate that expects a derived class parameter, because the method can accept any object of the base class, including objects of the derived class.
+            appleJuiceDelegate.Invoke(new Apple());
+            //CreateFruitJuiceDelegate fruitJuiceDelegate = appleJuiceFactory.CreateAppleJuice;//Contravariance allows us to assign a method that takes a derived class parameter to a delegate that expects a base class parameter, because the method can accept any object of the derived class, including objects of the base class.
+        }
+    }
+
+    
+    public delegate Fruit CreateFruitDelegate();
+
+    public class Fruit
+    {
+
+    }
+
+    public class Apple : Fruit
+    {
+        public Apple CreateApple()
+        {
+            Console.WriteLine("New apple created");
+            return new Apple();
+        }
+    }
+
+    public class Orange : Fruit
+    {
+        public Orange CreateOrange()
+        {
+            Console.WriteLine("New orange created");
+            return new Orange();
+        } 
+    }
+    
+
+    //delegate
+    public delegate void CreateFruitJuiceDelegate(Fruit fruit);
+    public delegate void CreateAppleJuiceDelegate(Apple apple);
+    public class AppleJuiceFactory
+    {
+        public void CreateAppleJuice(Apple apple)
+        {
+            Console.WriteLine("Apple juice created");
+        }
+    }
+
+    public class FruitJuiceFactory
+    {
+        public void CreateFruitJuice(Fruit fruit)
+        {
+            Console.WriteLine("Fruit juice created");
+        }
+    }
+}
+
+
+
+
 
 
 #endregion
