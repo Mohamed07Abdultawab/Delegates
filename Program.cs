@@ -284,7 +284,7 @@ namespace FuncActionPredicate
 
 
 #region Video5 -> Events & Observer Pattern
-
+/*
 namespace EventsandObserverPattern
 {
     internal class Program
@@ -342,5 +342,72 @@ namespace EventsandObserverPattern
         }
     }
 }
+*/
+#endregion
+
+
+#region Video6 -> EventHandler - EventArgs
+
+namespace EventHandlerEventArgs
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            YouTubeChannel channel1 = new YouTubeChannel() { ChannelName = "My Channel 1" };
+            YouTubeChannel channel2 = new YouTubeChannel() { ChannelName = "My Channel 2" };
+
+            Subscriber subscriber1 = new Subscriber();
+            Subscriber subscriber2 = new Subscriber();
+            Subscriber subscriber3 = new Subscriber();
+
+            subscriber1.Subscribe(channel1);
+            subscriber2.Subscribe(channel2);
+
+            channel1.UploadVideo("Video 1, channel 1");
+            channel2.UploadVideo("Video 2, channel 2");
+
+            
+        }
+    }
+
+  
+    public class VideoInfoEventArgs: EventArgs  //custom event args class that inherits from EventArgs, can add any properties we want to pass to the event handlers
+    {
+        public string Title { get; set; }
+        public int Duration { get; set; }
+        public string Description { get; set; }
+    }
+
+    //public delegate void VideoUpload(string title);
+    public class YouTubeChannel
+    {
+        public string ChannelName { get; set; }
+        public event EventHandler<VideoInfoEventArgs> videoUpload;
+        public void UploadVideo(string videoTitle)
+        {
+            Console.WriteLine($"New video uploaded: {videoTitle}");
+            //invoke the event with the video information as arguments
+            videoUpload?.Invoke(this, new VideoInfoEventArgs() { Title = "99",Duration = 15, Description = "Description" });
+        }
+    }
+
+    public class Subscriber
+    {
+        public void Subscribe(YouTubeChannel channel)
+        {
+            channel.videoUpload += WatchTheVideo;
+        }
+
+        public void WatchTheVideo(object sender, VideoInfoEventArgs e)//handler
+        {
+            //sender is the object that raised the event, in this case it's the YouTubeChannel object that uploaded the video
+            YouTubeChannel channel = (YouTubeChannel)sender;
+            Console.WriteLine($"User watch: {e.Title} & Duration: {e.Duration} & Description: {e.Description} from {channel.ChannelName}");
+        }
+    }
+
+}
+
 
 #endregion
