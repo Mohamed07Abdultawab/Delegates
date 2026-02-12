@@ -416,7 +416,7 @@ namespace EventHandlerEventArgs
 
 
 #region Video7 -> Covariance & Contravariance
-
+/*
 using System.Threading.Channels;
 
 namespace CovarianceContravariance
@@ -502,8 +502,77 @@ namespace CovarianceContravariance
 }
 
 
+*/
 
 
 
+#endregion
+
+
+
+
+#region Video8 -> Delegates Exercise 1 -> Student Grading System
+
+//create class (Student)
+//create class (GradingSystem)
+using Delegates;
+
+namespace DelegatesExercise1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Student> students = new List<Student>();
+
+            while (true)
+            {
+                Console.WriteLine("Welcome to the grading system! :)");
+                Console.WriteLine("Please enter your name: , to quit enter (done)! :)");
+                string studentName = Console.ReadLine();
+                if (studentName.ToLower() == "done")
+                {
+                    break;
+                }
+                List<int> studentGrades = new List<int>();
+                Console.WriteLine("Please enter your drades: (5 subjects) in order Arabic, English .. etc!");
+                for(int i = 0; i < 5; i++)
+                {
+                    int gradeValue = int.Parse(Console.ReadLine());
+                    studentGrades.Add(gradeValue);
+                }
+
+                Student student = new Student();
+                student.Name = studentName;
+                student.Grades = studentGrades;
+                students.Add(student);
+
+            }
+
+            GradingSystem gradingSystem = new GradingSystem();
+            gradingSystem.DisplayGradingInfo(students,
+                (List<int> grades) => (grades.Average()),
+                (double x) => (x >= 20 ? true : false),
+                (Student student, double Average, bool isPassed) => 
+                Console.WriteLine($"The user name is: {student.Name}, Average grade is: {Average}, result: {isPassed}"));
+        }
+
+        //private static void DisplayData(Student student, double Average, bool isPassed)
+        //{
+        //    string status = isPassed ? "Passed" : "Failed";
+        //    Console.WriteLine($"The user name is: {student.Name}, Average grade is: {Average}, result: {status}" );
+        //}
+
+        //private static double CalculateAverage(List<int> grades)
+        //{
+        //    return grades.Average();
+        //}
+
+        //private static bool IsPassed(double averageGrade)
+        //{
+        //    return averageGrade >= 30;
+        //}
+    }
+}
 
 #endregion
