@@ -513,6 +513,7 @@ namespace CovarianceContravariance
 
 #region Video8 -> Delegates Exercise 1 -> Student Grading System
 
+/*
 //create class (Student)
 //create class (GradingSystem)
 using Delegates;
@@ -535,7 +536,7 @@ namespace DelegatesExercise1
                     break;
                 }
                 List<int> studentGrades = new List<int>();
-                Console.WriteLine("Please enter your drades: (5 subjects) in order Arabic, English .. etc!");
+                Console.WriteLine("Please enter your grades: (5 subjects) in order Arabic, English .. etc!");
                 for(int i = 0; i < 5; i++)
                 {
                     int gradeValue = int.Parse(Console.ReadLine());
@@ -574,5 +575,76 @@ namespace DelegatesExercise1
         //}
     }
 }
+
+*/
+#endregion
+
+
+
+
+#region Video 9 -> Delegates Exercise 2 -> Temperature Sensor
+
+using System.Numerics;
+using System.Runtime.InteropServices;
+using Delegates.Exercise_2;
+
+namespace DelegatesExercise2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Sensor sensor = new Sensor();
+            Display display = new Display();
+            Alarm alarm = new Alarm(20);
+
+            sensor.SensorChanged += display.ShowTemperature; 
+            sensor.SensorChanged += alarm.FireAlarm;
+            while (true)
+            {
+                Console.WriteLine("Welcome to the temperature system! :)");
+                Console.WriteLine("1. set the Temperature.");
+                Console.WriteLine("2. set the Alarm value.");
+                Console.WriteLine("3. Exit");
+
+                var input = int.Parse(Console.ReadLine());
+                switch (input)
+                {
+                    case 1:
+                        Console.WriteLine("Please enter the temperature value in degress: ");
+                        var temp  = Console.ReadLine();
+                        int tempValue = Convert.ToInt32(temp);
+                        sensor.ChangeTemperature(tempValue);
+                        break;
+                    case 2:
+                        Console.WriteLine("Please enter the temperature value for alarm");
+                        var aralrmvalue  = Console.ReadLine();
+                        int alarmV = Convert.ToInt32(aralrmvalue);
+                        alarm.SetAlarmVAlue(alarmV);
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        Console.WriteLine("Invalid input, please try again.");
+                        break;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endregion
